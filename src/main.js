@@ -11,8 +11,11 @@ async function greet() {
 }
 
 async function fun_fact() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  funFactMsgEl.textContent = await invoke("fun_fact", { name: greetInputEl.value });
+  const result = await invoke("fetch_feed", { url: "http://www.merriam-webster.com/wotd/feed/rss2" });
+  const randomIndex = Math.floor(Math.random() * result.length);
+  const firstItemTitle = result[randomIndex]?.title || "No title found";
+  const firstItemdDescription = result[randomIndex]?.description || "No description found";
+  funFactMsgEl.textContent = `Word of the day: ${firstItemTitle} - ${firstItemdDescription}`;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
