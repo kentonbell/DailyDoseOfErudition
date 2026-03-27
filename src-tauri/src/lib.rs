@@ -18,7 +18,7 @@ async fn fetch_feed(url: &str) -> Result<Vec<FeedItem>, String> {
         .await
         .map_err(|e| e.to_string())?;
 
-    // println!("step one in RSS feed...");
+    println!("step one in RSS feed...");
 
     // println!("{}", String::from_utf8_lossy(&content)); //print all content
 
@@ -26,7 +26,7 @@ async fn fetch_feed(url: &str) -> Result<Vec<FeedItem>, String> {
     let channel =
         Channel::read_from(&content[..]).map_err(|e| e.to_string())?;
 
-    // println!("step two in RSS feed...");
+    println!("step two in RSS feed...");
 
     Ok(channel.items()
         .iter()
@@ -41,7 +41,7 @@ async fn fetch_feed(url: &str) -> Result<Vec<FeedItem>, String> {
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    format!("Hello, {}! You've been greeted from the mainframe!", name)
 }
 
 #[tauri::command]

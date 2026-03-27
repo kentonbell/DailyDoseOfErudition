@@ -11,11 +11,21 @@ async function greet() {
 }
 
 async function fun_fact() {
-  const result = await invoke("fetch_feed", { url: "http://www.merriam-webster.com/wotd/feed/rss2" });
+  const result = await invoke("fetch_feed", { url: "https://www.brainyquote.com/link/quotebr.rss" });
   const randomIndex = Math.floor(Math.random() * result.length);
   const firstItemTitle = result[randomIndex]?.title || "No title found";
-  const firstItemdDescription = result[randomIndex]?.description || "No description found";
-  funFactMsgEl.textContent = `Word of the day: ${firstItemTitle} - ${firstItemdDescription}`;
+  let firstItemdDescription = result[randomIndex]?.description || "No description found";
+
+
+  if (firstItemdDescription !== "No description found") {
+    console.log("Original description:", firstItemdDescription);
+    const parser = new DOMParser();
+    const descriptionDoc = parser.parseFromString(firstItemdDescription, "text/html");
+    var descriptionText = descriptionDoc.body.textContent || "";
+    firstItemdDescription = descriptionText.trim();
+  }
+
+  funFactMsgEl.textContent = `Here you are: ${firstItemTitle} - ${firstItemdDescription}`;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
